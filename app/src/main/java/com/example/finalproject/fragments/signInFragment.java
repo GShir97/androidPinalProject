@@ -59,38 +59,40 @@ public class signInFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
 
-        Button signInButton= view.findViewById(R.id.buttonSignup);
+        Button signInButton = view.findViewById(R.id.buttonLogin);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = ((EditText) view.findViewById(R.id.textEmailAddress)).getText().toString();
+                String password = ((EditText) view.findViewById(R.id.textPassword)).getText().toString();
+
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_homeFragment);
+                                } else {
+                                    Toast.makeText(getContext(), "Signing in failed.", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+
+            }
+        });
+
+        Button buttonSignup = (Button) view.findViewById(R.id.buttonSignup);
+
+        buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_signUpFragment);
             }
         });
+
         return view;
     }
-
-    public void loginFunc(View view) {
-
-        String email = ((EditText)view.findViewById(R.id.textEmailAddress)).getText().toString();
-        String password = ((EditText)view.findViewById(R.id.textPassword)).getText().toString();
-
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(getContext(), "Signing in successful.", Toast.LENGTH_LONG).show();
-                            Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_homeFragment);
-                        } else {
-                            Toast.makeText(getContext(), "Signing in failed.", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-
-    }
-
-
 }
