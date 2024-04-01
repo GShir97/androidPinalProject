@@ -33,8 +33,9 @@
             android:layout_height="71dp"
             android:layout_margin="50dp"
             android:background="#30ffffff"
+            android:popupBackground="#50FFFFFF"
             android:gravity="bottom"
-            android:padding="10dp"/>
+            android:padding="10dp" />
 
         <Button
             android:id="@+id/showClubButton"
@@ -52,7 +53,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="201dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingLeft="20dp">
@@ -62,16 +63,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="DJ:"
-                android:textSize="25dp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="25dp" />
 
             <TextView
                 android:id="@+id/songTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Now playing:"
-                android:textSize="25dp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="25dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,28 +81,29 @@
                 android:paddingTop="30dp">
 
                 <TextView
-                    android:id="@+id/addressTitle"
+                    android:id="@+id/openTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Address:"
-                    android:textSize="22dp"
-                    android:textColor="@color/white"/>
+                    android:text="Open:"
+                    android:textColor="@color/white"
+                    android:textSize="22dp" />
 
                 <TextView
                     android:id="@+id/ageTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Age limit:"
-                    android:textSize="22dp"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:textSize="22dp" />
 
                 <TextView
-                    android:id="@+id/openTitle"
+                    android:id="@+id/addressTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Open:"
-                    android:textSize="22dp"
-                    android:textColor="@color/white"/>
+                    android:text="Address:"
+                    android:textColor="@color/white"
+                    android:textSize="22dp" />
+
             </LinearLayout>
 
         </LinearLayout>
@@ -109,21 +111,24 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="15dp">
 
             <TextView
                 android:id="@+id/DJView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="25dp" />
+                android:textSize="25dp"
+                android:textColor="@color/white"/>
 
             <TextView
                 android:id="@+id/songView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="25dp" />
+                android:textSize="25dp"
+                android:textColor="@color/white"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -132,10 +137,11 @@
                 android:paddingTop="30dp">
 
                 <TextView
-                    android:id="@+id/addressView"
+                    android:id="@+id/openView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
+                    android:textColor="@color/white"
                     android:textSize="22dp" />
 
                 <TextView
@@ -143,14 +149,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
+                    android:textColor="@color/white"
                     android:textSize="22dp" />
 
                 <TextView
-                    android:id="@+id/openView"
+                    android:id="@+id/addressView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
+                    android:textColor="@color/white"
                     android:textSize="22dp" />
+
             </LinearLayout>
 
         </LinearLayout>
