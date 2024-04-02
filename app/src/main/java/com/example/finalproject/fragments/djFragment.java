@@ -2,43 +2,51 @@ package com.example.finalproject.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.finalproject.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link djFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class djFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+    private Spinner djSpinner;
+    private Button showDjButton;
+    private TextView djNameTextView, djSongTextView, djClubTextView, djAddressTextView;
+
+    private DatabaseReference djRef;
+    private List<String> djNamesList;
+    private ArrayAdapter<String> djSpinnerAdapter;
+
     private String mParam1;
     private String mParam2;
+
 
     public djFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment djFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static djFragment newInstance(String param1, String param2) {
         djFragment fragment = new djFragment();
         Bundle args = new Bundle();
@@ -60,7 +68,85 @@ public class djFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dj, container, false);
+        View view = inflater.inflate(R.layout.fragment_dj, container, false);
+
+        djSpinner = view.findViewById(R.id.djSpinner);
+        showDjButton = view.findViewById(R.id.showDjButton);
+        djNameTextView = view.findViewById(R.id.DJView);
+        djSongTextView = view.findViewById(R.id.songView);
+        djClubTextView = view.findViewById(R.id.clubView);
+        djAddressTextView = view.findViewById(R.id.addressView);
+
+        djRef = FirebaseDatabase.getInstance().getReference().child("dj");
+
+        djNamesList = new ArrayList<>();
+
+        retrieveDjNames();
+        djSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Handle club selection
+                String selectedClubName = parent.getItemAtPosition(position).toString();
+                retrieveDjDetails(selectedClubName);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+        showDjButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle button click if needed
+            }
+        });
+        return view;
+    }
+    private void retrieveDjNames() {
+        djRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                djNamesList.add("Select a DJ");
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String clubName = dataSnapshot.child("name").getValue(String.class);
+                    if (clubName != null) {
+                        djNamesList.add(clubName);
+                    }
+                }
+                djSpinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, djNamesList);
+                djSpinner.setAdapter(djSpinnerAdapter);
+                djSpinnerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle database error
+            }
+        });
+    }
+
+    private void retrieveDjDetails(String clubName) {
+        djRef.orderByChild("name").equalTo(clubName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Dj dj = dataSnapshot.getValue(Dj.class);
+                        if (dj != null) {
+                            djNameTextView.setText(dj.getName());
+                            djSongTextView.setText(dj.getSong());
+                            djClubTextView.setText(dj.getClub());
+                            djAddressTextView.setText(dj.getAddress());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle database error
+            }
+        });
     }
 }

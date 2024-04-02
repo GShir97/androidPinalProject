@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#423E3E"
+    tools:context=".fragments.homeFragment">
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="15dp"
+            android:paddingRight="8dp"
+            android:src="@drawable/music_logo" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="371dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/goToDjButton"
+            android:layout_width="wrap_content"
+            android:layout_height="280dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/djschoose" />
+
+        <ImageButton
+            android:id="@+id/goToClubButton"
+            android:layout_width="wrap_content"
+            android:layout_height="280dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/clubchoose" />
+    </LinearLayout>
+
+</LinearLayout>

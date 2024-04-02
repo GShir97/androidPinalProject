@@ -74,7 +74,7 @@ public class signInFragment extends Fragment {
                                 if (task.isSuccessful()) {
 
                                     FirebaseUser user = mAuth.getCurrentUser();
-                                    Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_homeFragment);
+                                    Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_homeFragment2);
                                 } else {
                                     Toast.makeText(getContext(), "Signing in failed.", Toast.LENGTH_LONG).show();
                                 }

@@ -14,11 +14,11 @@
             android:id="@+id/action_signInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
         <action
-            android:id="@+id/action_signInFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-        <action
             android:id="@+id/action_signInFragment_to_djViewFragment"
             app:destination="@id/djViewFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -27,19 +27,7 @@
         tools:layout="@layout/fragment_sign_up" >
         <action
             android:id="@+id/action_signUpFragment_to_homeFragment2"
-            app:destination="@id/homeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.finalproject.fragments.clubFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_club" >
-        <action
-            android:id="@+id/action_homeFragment_to_clubFragment"
-            app:destination="@id/clubFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_djFragment"
-            app:destination="@id/djFragment" />
+            app:destination="@id/homeFragment2" />
     </fragment>
     <fragment
         android:id="@+id/clubFragment"
@@ -56,4 +44,16 @@
         android:name="com.example.finalproject.fragments.djViewFragment"
         android:label="fragment_dj_view"
         tools:layout="@layout/fragment_dj_view" />
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="com.example.finalproject.fragments.homeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment2_to_clubFragment"
+            app:destination="@id/clubFragment" />
+        <action
+            android:id="@+id/action_homeFragment2_to_djFragment"
+            app:destination="@id/djFragment" />
+    </fragment>
 </navigation>
