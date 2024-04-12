@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/home_icon"
+        android:title="Home"
+        android:visible="true" />
+    <item
+        android:id="@+id/djs"
+        android:icon="@drawable/dj_icon"
+        android:title="DJs"
+        android:visible="true" />
+    <item
+        android:id="@+id/clubs"
+        android:title="Clubs"
+        android:icon="@drawable/club_icon"/>
+    <item
+        android:id="@+id/songs"
+        android:title="Song request"
+        android:icon="@drawable/mic_icon"/>
+</menu>

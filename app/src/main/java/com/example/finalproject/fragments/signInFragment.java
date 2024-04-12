@@ -15,42 +15,30 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.finalproject.R;
+import com.example.finalproject.activities.SecActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.AuthResult;
 
+import android.content.Intent;
+
+
 
 public class signInFragment extends Fragment {
 
     private FirebaseAuth mAuth;
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    private String mParam1;
-    private String mParam2;
 
     public signInFragment() {
         // Required empty public constructor
     }
 
-    public static signInFragment newInstance(String param1, String param2) {
-        signInFragment fragment = new signInFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -74,7 +62,11 @@ public class signInFragment extends Fragment {
                                 if (task.isSuccessful()) {
 
                                     FirebaseUser user = mAuth.getCurrentUser();
-                                    Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_homeFragment2);
+                                    /*Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_homeFragment2);*/
+                                    Intent intent = new Intent(getActivity(), SecActivity.class);
+                                    startActivity(intent);
+                                    getActivity().finish();
+
                                 } else {
                                     Toast.makeText(getContext(), "Signing in failed.", Toast.LENGTH_LONG).show();
                                 }
