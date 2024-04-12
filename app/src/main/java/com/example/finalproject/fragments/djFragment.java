@@ -83,7 +83,6 @@ public class djFragment extends Fragment {
         showDjButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle button click if needed
             }
         });
         return view;

@@ -21,6 +21,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import android.content.Intent;
 
@@ -32,7 +37,6 @@ public class signInFragment extends Fragment {
 
 
     public signInFragment() {
-        // Required empty public constructor
     }
 
 
@@ -62,10 +66,16 @@ public class signInFragment extends Fragment {
                                 if (task.isSuccessful()) {
 
                                     FirebaseUser user = mAuth.getCurrentUser();
-                                    /*Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_homeFragment2);*/
-                                    Intent intent = new Intent(getActivity(), SecActivity.class);
-                                    startActivity(intent);
-                                    getActivity().finish();
+                                    if (user != null) {
+                                        String userId = user.getUid();
+                                        checkDJStatus(userId, new OnDjStatusCheckedListener() {
+                                            @Override
+                                            public void onDjStatusChecked(boolean isDj) {
+                                                navigateBasedOnDjStatus(isDj);
+                                            }
+                                        });
+                                    }
+
 
                                 } else {
                                     Toast.makeText(getContext(), "Signing in failed.", Toast.LENGTH_LONG).show();
@@ -87,4 +97,43 @@ public class signInFragment extends Fragment {
 
         return view;
     }
+
+    private void navigateBasedOnDjStatus(boolean isDj) {
+        if (isDj) {
+            Navigation.findNavController(requireView()).navigate(R.id.action_signInFragment_to_djViewFragment);
+        } else {
+            Intent intent = new Intent(getActivity(), SecActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
+    }
+    private void checkDJStatus(String userId, OnDjStatusCheckedListener listener) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    User user = snapshot.getValue(User.class);
+                    if (user != null) {
+                        boolean isDj = user.getDj();
+                        listener.onDjStatusChecked(isDj);
+                    } else {
+                        listener.onDjStatusChecked(false);
+                    }
+                } else {
+                    listener.onDjStatusChecked(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                listener.onDjStatusChecked(false);
+            }
+        });
+    }
+
+    public interface OnDjStatusCheckedListener {
+        void onDjStatusChecked(boolean isDj);
+    }
+
 }

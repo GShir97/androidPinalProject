@@ -28,6 +28,12 @@
         <action
             android:id="@+id/action_signUpFragment_to_homeFragment2"
             app:destination="@id/homeFragment2" />
+        <action
+            android:id="@+id/action_signUpFragment_to_djViewFragment"
+            app:destination="@id/djViewFragment" />
+        <action
+            android:id="@+id/action_signUpFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/clubFragment"

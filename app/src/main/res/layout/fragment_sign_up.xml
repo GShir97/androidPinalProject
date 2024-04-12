@@ -52,6 +52,14 @@
             android:padding="20dp"
             android:textStyle="bold"></EditText>
 
+        <CheckBox
+            android:id="@+id/checkboxDj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Are you a DJ?"
+            android:textSize="20dp"
+            android:checked="false" />
+
     </LinearLayout>
 
     <LinearLayout
