@@ -1,14 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.songsFragment">
+    android:orientation="vertical"
+    tools:context=".fragments.songsFragment"
+    android:background="@color/gray">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/logoView2"
+            android:layout_width="match_parent"
+            android:layout_height="117dp"
+            android:layout_gravity="left"
+            android:src="@drawable/music_logo" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="288dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/songClubSpinner"
+            android:layout_width="342dp"
+            android:layout_height="71dp"
+            android:layout_margin="50dp"
+            android:background="#30ffffff"
+            android:gravity="bottom"
+            android:padding="10dp"
+            android:popupBackground="#34FFFFFF" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/playDj"
+                android:layout_width="145dp"
+                android:layout_height="wrap_content"
+                android:text="Dj playing:"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                tools:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/playDjView"
+                android:layout_width="182dp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="25dp" />
+
+
+        </LinearLayout>
+
+        <RadioButton
+            android:id="@+id/likeButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/like_button_select"
+            android:buttonTint="#888888"
+            android:gravity="right"
+            tools:visibility="invisible" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="252dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/songNameEdit"
+            android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="#30ffffff"
+            android:drawablePadding="10dp"
+            android:hint="The song's name"
+            android:inputType="text"
+            android:padding="20dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/performerEdit"
+            android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="#30ffffff"
+            android:drawablePadding="10dp"
+            android:hint="The song's performer"
+            android:inputType="text"
+            android:padding="20dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/requestButton"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@color/pink"
+            android:text="Request"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+</LinearLayout>

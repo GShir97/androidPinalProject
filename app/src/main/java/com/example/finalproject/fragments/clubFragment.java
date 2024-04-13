@@ -37,6 +37,7 @@ public class clubFragment extends Fragment {
     private DatabaseReference clubsRef;
     private List<String> clubNamesList;
     private ArrayAdapter<String> spinnerAdapter;
+    private String selectedClubName;
 
 
     public clubFragment() {
@@ -52,7 +53,7 @@ public class clubFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_club, container, false);
 
         clubSpinner = view.findViewById(R.id.clubsSpinner);
@@ -72,7 +73,7 @@ public class clubFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Handle club selection
-                String selectedClubName = parent.getItemAtPosition(position).toString();
+                selectedClubName = parent.getItemAtPosition(position).toString();
                 retrieveClubDetails(selectedClubName);
             }
 

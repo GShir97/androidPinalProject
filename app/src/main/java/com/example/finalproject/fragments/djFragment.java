@@ -34,6 +34,7 @@ public class djFragment extends Fragment {
     private DatabaseReference djRef;
     private List<String> djNamesList;
     private ArrayAdapter<String> djSpinnerAdapter;
+    private String selectedClubName;
 
 
 
@@ -71,8 +72,8 @@ public class djFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Handle club selection
-                String selectedClubName = parent.getItemAtPosition(position).toString();
-                retrieveDjDetails(selectedClubName);
+                selectedClubName = parent.getItemAtPosition(position).toString();
+
             }
 
             @Override
@@ -83,6 +84,7 @@ public class djFragment extends Fragment {
         showDjButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                retrieveDjDetails(selectedClubName);
             }
         });
         return view;

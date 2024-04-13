@@ -56,7 +56,7 @@
             android:id="@+id/checkboxDj"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Are you a DJ?"
+            android:text="I'm a DJ"
             android:textSize="20dp"
             android:checked="false" />
 

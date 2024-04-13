@@ -28,9 +28,9 @@ public class signUpFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private CheckBox checkboxDj;
+    private Bundle bundle;
 
     public signUpFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -53,6 +53,9 @@ public class signUpFragment extends Fragment {
                 String email = ((EditText) view.findViewById(R.id.emailSignup)).getText().toString();
                 String password = ((EditText) view.findViewById(R.id.passwordSignup)).getText().toString();
                 boolean isDj = checkboxDj.isChecked();
+                bundle = new Bundle();
+                bundle.putString("userEmail", email);
+
 
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -93,8 +96,7 @@ public class signUpFragment extends Fragment {
     private void navigateBasedOnDjStatus(boolean isDj) {
         if (isDj) {
             // Navigate to DJ fragment
-            Navigation.findNavController(requireView())
-                    .navigate(R.id.action_signUpFragment_to_signInFragment);
+            Navigation.findNavController(requireView()).navigate(R.id.action_signUpFragment_to_signInFragment, bundle);
         } else {
             // Navigate to home fragment
             Navigation.findNavController(requireView())
