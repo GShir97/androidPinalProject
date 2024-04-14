@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,24 +31,16 @@ public class djFragment extends Fragment {
     private Spinner djSpinner;
     private Button showDjButton;
     private TextView djNameTextView, djSongTextView, djClubTextView, djAddressTextView;
-
     private DatabaseReference djRef;
     private List<String> djNamesList;
     private ArrayAdapter<String> djSpinnerAdapter;
-    private String selectedClubName;
+    private String selectedDjName;
+    private LinearLayout titles;
 
 
 
     public djFragment() {
-        // Required empty public constructor
-    }
 
-
-    public static djFragment newInstance(String param1, String param2) {
-        djFragment fragment = new djFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
 
@@ -62,6 +55,7 @@ public class djFragment extends Fragment {
         djSongTextView = view.findViewById(R.id.songView);
         djClubTextView = view.findViewById(R.id.clubView);
         djAddressTextView = view.findViewById(R.id.addressView);
+        titles = view.findViewById(R.id.titlesLayout);
 
         djRef = FirebaseDatabase.getInstance().getReference().child("dj");
 
@@ -71,20 +65,18 @@ public class djFragment extends Fragment {
         djSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Handle club selection
-                selectedClubName = parent.getItemAtPosition(position).toString();
-
+                selectedDjName = parent.getItemAtPosition(position).toString();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing
             }
         });
         showDjButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                retrieveDjDetails(selectedClubName);
+                retrieveDjDetails(selectedDjName);
+                titles.setVisibility(View.VISIBLE);
             }
         });
         return view;
@@ -107,7 +99,6 @@ public class djFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle database error
             }
         });
     }
@@ -131,7 +122,6 @@ public class djFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle database error
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.example.finalproject.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,9 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.finalproject.R;
+import com.example.finalproject.activities.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,87 +26,95 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class djViewFragment extends Fragment {
-    private String djEmail;
-    private RecyclerView mRecyclerView;
-    private SongsAdapter mAdapter;
-    private List<String> mSongsList;
-    private List<String> mPerformersList;
-    private String djName;
-    private TextView helloDj;
 
-    public djViewFragment() {
-        // Required empty public constructor
-    }
+    RecyclerView recyclerView;
+    DatabaseReference database;
+    DatabaseReference djRef;
+    SongsAdapter myAdapter;
+    ArrayList<Songs> list;
+    TextView djNameView;
+    TextView likesView;
+    private FirebaseAuth mAuth;
+    private ImageButton logoutButton;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dj_view, container, false);
-        mRecyclerView = view.findViewById(R.id.songsRecyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        helloDj = view.findViewById(R.id.helloView);
+
+        recyclerView = view.findViewById(R.id.songsRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        list = new ArrayList<>();
+        myAdapter = new SongsAdapter(getContext(), list);
+        recyclerView.setAdapter(myAdapter);
+
+        database = FirebaseDatabase.getInstance().getReference().child("songs");
+
+        djRef = FirebaseDatabase.getInstance().getReference().child("dj");
+
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list.clear();
+                for (DataSnapshot djSnapshot : snapshot.getChildren()) {
+                    String songName = djSnapshot.child("songName").getValue(String.class);
+                    String performerName = djSnapshot.child("performerName").getValue(String.class);
+
+                    Songs song = new Songs(songName, performerName);
+                    list.add(song);
+                }
+                myAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle onCancelled event
+            }
+        });
+
+        djNameView = view.findViewById(R.id.djNameView);
+        likesView = view.findViewById(R.id.likesView);
+
+        djRef = FirebaseDatabase.getInstance().getReference().child("dj").child("Alon Deloko");
+        djRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String djName = snapshot.child("djName").getValue(String.class);
+                    djNameView.setText(djName);
+
+                    Long likes = snapshot.child("likes").getValue(Long.class);
+                    if (likes != null) {
+                        likesView.setText(String.valueOf(likes));
+                    } else {
+                        likesView.setText("0");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        mAuth = FirebaseAuth.getInstance();
+        logoutButton = view.findViewById(R.id.logoutButton);
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+                Toast.makeText(getContext(), "Logout Successful", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (getArguments() != null) {
-            djEmail = getArguments().getString("userEmail");
-            fetchDJName();
-        }
-    }
-
-    private void fetchDJName() {
-        DatabaseReference djRef = FirebaseDatabase.getInstance().getReference().child("dj");
-        djRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot djSnapshot : dataSnapshot.getChildren()) {
-                    DataSnapshot emailSnapshot = djSnapshot.child("email");
-                    if (emailSnapshot.exists() && emailSnapshot.getValue(String.class).equals(djEmail)) {
-                        djName = djSnapshot.child("name").toString();
-                        helloDj.setText(djName);
-                        fetchSongsForDJ(djName);
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-            }
-        });
-    }
-
-    private void fetchSongsForDJ(String djName) {
-        DatabaseReference songsRef = FirebaseDatabase.getInstance().getReference().child("songs").child(djName);
-
-        songsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mSongsList = new ArrayList<>();
-                mPerformersList = new ArrayList<>();
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String songName = snapshot.child("songName").getValue(String.class);
-                    String performerName = snapshot.child("performerName").getValue(String.class);
-
-                    if (songName != null && performerName != null) {
-                        mSongsList.add(songName);
-                        mPerformersList.add(performerName);
-                    }
-                }
-
-                mAdapter = new SongsAdapter(getContext(), mSongsList, mPerformersList);
-                mRecyclerView.setAdapter(mAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-            }
-        });
-    }
 }
+

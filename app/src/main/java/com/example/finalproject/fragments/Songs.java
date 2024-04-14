@@ -1,23 +1,17 @@
 package com.example.finalproject.fragments;
 
 public class Songs {
-    private String djName;
     private String songName;
     private String songPerformer;
 
-    public Songs(String djName, String songName, String songPerformer) {
-        this.djName = djName;
+    public Songs() {
+    }
+
+    public Songs(String songName, String songPerformer) {
         this.songName = songName;
         this.songPerformer = songPerformer;
     }
 
-    public String getDjName() {
-        return djName;
-    }
-
-    public void setDjName(String djName) {
-        this.djName = djName;
-    }
 
     public String getSongName() {
         return songName;

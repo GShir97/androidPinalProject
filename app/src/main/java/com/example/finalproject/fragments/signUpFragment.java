@@ -1,5 +1,6 @@
 package com.example.finalproject.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.finalproject.R;
+import com.example.finalproject.activities.SecActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -95,12 +97,11 @@ public class signUpFragment extends Fragment {
 
     private void navigateBasedOnDjStatus(boolean isDj) {
         if (isDj) {
-            // Navigate to DJ fragment
             Navigation.findNavController(requireView()).navigate(R.id.action_signUpFragment_to_signInFragment, bundle);
         } else {
-            // Navigate to home fragment
-            Navigation.findNavController(requireView())
-                    .navigate(R.id.action_signUpFragment_to_homeFragment2);
+            Intent intent = new Intent(getActivity(), SecActivity.class);
+            startActivity(intent);
+            getActivity().finish();
         }
     }
 }

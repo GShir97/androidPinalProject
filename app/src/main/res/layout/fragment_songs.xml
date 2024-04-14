@@ -10,7 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="10dp">
 
         <ImageView
             android:id="@+id/logoView2"
@@ -22,7 +23,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="288dp"
+        android:layout_height="265dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -34,7 +35,7 @@
             android:background="#30ffffff"
             android:gravity="bottom"
             android:padding="10dp"
-            android:popupBackground="#34FFFFFF" />
+            android:popupBackground="#E6A59A9A" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,7 +50,7 @@
                 android:text="Dj playing:"
                 android:textColor="@color/white"
                 android:textSize="25dp"
-                tools:visibility="invisible" />
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/playDjView"
@@ -67,18 +68,20 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/like_button_select"
-            android:buttonTint="#888888"
+            android:button="@android:color/transparent"
             android:gravity="right"
-            tools:visibility="invisible" />
+            android:visibility="invisible" />
 
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/songs"
         android:layout_width="match_parent"
         android:layout_height="252dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <EditText
             android:id="@+id/songNameEdit"

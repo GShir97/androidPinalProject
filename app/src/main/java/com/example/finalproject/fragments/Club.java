@@ -7,18 +7,21 @@ public class Club {
     private String open;
     private String address;
     private String age;
+    private String djId;
 
     public Club() {
         // Default constructor required for Firebase
     }
 
-    public Club(String name, String DJ, String song, String open, String address, String age) {
+
+    public Club(String name, String DJ, String song, String open, String address, String age, String djId) {
         this.name = name;
         this.DJ = DJ;
         this.song = song;
         this.open = open;
         this.address = address;
         this.age = age;
+        this.djId = djId;
     }
 
     // Getters and setters for the fields
@@ -67,5 +70,13 @@ public class Club {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public String getDjId() {
+        return djId;
+    }
+
+    public void setDjId(String djId) {
+        this.djId = djId;
     }
 }

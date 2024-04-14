@@ -13,45 +13,48 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalproject.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.ViewHolder> {
-    private Context mContext;
-    private List<String> mSongsList;
-    private List<String> mPerformersList;
+public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder> {
 
-    public SongsAdapter(Context context, List<String> songsList, List<String> performersList) {
-        mContext = context;
-        mSongsList = songsList;
-        mPerformersList = performersList;
+    Context context;
+    ArrayList<Songs> songsList;
+
+    public SongsAdapter(Context context, ArrayList<Songs> songsList) {
+        this.context = context;
+        this.songsList = songsList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_song, parent, false);
-        return new ViewHolder(view);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_song, parent, false);
+        return new MyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.songNameTextView.setText(mSongsList.get(position));
-        holder.performerTextView.setText(mPerformersList.get(position));
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+
+        Songs song = songsList.get(position);
+        holder.songName.setText(song.getSongName());
+        holder.performer.setText(song.getSongPerformer());
     }
 
     @Override
     public int getItemCount() {
-        return mSongsList.size();
+        return songsList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView songNameTextView;
-        TextView performerTextView;
+    public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        public ViewHolder(@NonNull View itemView) {
+        TextView songName, performer;
+
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            songNameTextView = itemView.findViewById(R.id.songNameTextView);
-            performerTextView = itemView.findViewById(R.id.performerTextView);
+
+            songName = itemView.findViewById(R.id.songNameTextView);
+            performer = itemView.findViewById(R.id.performerTextView);
         }
     }
 }

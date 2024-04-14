@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class clubFragment extends Fragment {
     private List<String> clubNamesList;
     private ArrayAdapter<String> spinnerAdapter;
     private String selectedClubName;
+    private LinearLayout titles;
 
 
     public clubFragment() {
@@ -63,6 +65,7 @@ public class clubFragment extends Fragment {
         clubOpenTextView = view.findViewById(R.id.openView);
         clubAddressTextView = view.findViewById(R.id.addressView);
         clubAgeTextView = view.findViewById(R.id.ageView);
+        titles = view.findViewById(R.id.titlesLayout);
 
         clubsRef = FirebaseDatabase.getInstance().getReference().child("clubs");
 
@@ -72,20 +75,18 @@ public class clubFragment extends Fragment {
         clubSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Handle club selection
                 selectedClubName = parent.getItemAtPosition(position).toString();
-                retrieveClubDetails(selectedClubName);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing
             }
         });
         showClubButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle button click if needed
+                retrieveClubDetails(selectedClubName);
+                titles.setVisibility(View.VISIBLE);
             }
         });
         return view;
@@ -134,7 +135,6 @@ public class clubFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle database error
             }
         });
     }

@@ -3,6 +3,7 @@ package com.example.finalproject.fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,6 +47,7 @@ public class songsFragment extends Fragment {
     private String DjName;
     private boolean isButtonPressed = false;
     private  Button requestButton;
+    private LinearLayout songs;
 
 
     @Override
@@ -59,7 +62,7 @@ public class songsFragment extends Fragment {
         clubDjTitle = view.findViewById(R.id.playDj);
 
         requestButton = view.findViewById(R.id.requestButton);
-
+        songs = view.findViewById(R.id.songs);
 
         clubsRef = FirebaseDatabase.getInstance().getReference().child("clubs");
         djRef = FirebaseDatabase.getInstance().getReference().child("dj").child("name");
@@ -70,10 +73,14 @@ public class songsFragment extends Fragment {
         clubSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Handle club selection
                 String selectedClubName = parent.getItemAtPosition(position).toString();
                 retrieveClubDetails(selectedClubName);
 
+                if(isButtonPressed)
+                {
+                    likeButton.setChecked(false);
+                    likeButton.setBackgroundResource(R.drawable.baseline_favorite_24);
+                }
                 clubDjTitle.setVisibility(View.GONE);
                 likeButton.setVisibility(View.GONE);
             }
@@ -112,14 +119,16 @@ public class songsFragment extends Fragment {
                 }
                 if (!DjName.isEmpty() && !songName.isEmpty() && !performerName.isEmpty()) {
                     DatabaseReference songsRef = FirebaseDatabase.getInstance().getReference().child("songs");
-                    DatabaseReference djSongsRef = songsRef.child(DjName);
-                    DatabaseReference newSongRef = djSongsRef.push();
+                    DatabaseReference newSongRef = songsRef.push();
+
                     newSongRef.child("songName").setValue(songName);
                     newSongRef.child("performerName").setValue(performerName);
 
 
                     ((EditText) view.findViewById(R.id.songNameEdit)).setText("");
                     ((EditText) view.findViewById(R.id.performerEdit)).setText("");
+
+                    Toast.makeText(getContext(), "Song Requested Successfuly", Toast.LENGTH_SHORT).show();
                 }
             }
                     });
@@ -160,6 +169,7 @@ public class songsFragment extends Fragment {
                             DjName = club.getDJ();
                             clubDjTextView.setText(DjName);
                             clubDjTitle.setVisibility(View.VISIBLE);
+                            songs.setVisibility(View.VISIBLE);
                             likeButton.setChecked(false);
                             if (!"None".equals(club.getDJ())) {
                                 likeButton.setVisibility(View.VISIBLE);
